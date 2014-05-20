@@ -1,12 +1,16 @@
 (function($){
-    var InvertedPendulum = $.InvertedPendulum = function(){};
+    var defaultState = {
+	position : 0,
+	angle: 0,
+	velocity: 0,
+	angularVelocity: 0
+    };
+
+    var InvertedPendulum = $.InvertedPendulum = function(state){
+	this._currentState = state || defaultState;
+    };
 
     InvertedPendulum.prototype.currentState = function(){
-	return {
-	    position : 0,
-	    angle: 0,
-	    velocity: 0,
-	    angularVelocity: 0
-	}
+	return this._currentState;
     }
 })(window || module.exports);
