@@ -1,3 +1,3 @@
 (function($){
-    $.InvertedPendulum = {};
+    $.InvertedPendulum = function(){};
 })(window || module.exports);
