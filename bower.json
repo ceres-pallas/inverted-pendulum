@@ -1,0 +1,9 @@
+{
+  "name": "inverted-pendulum",
+  "version": "0.0.0",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "jasmine": "~2.0.0"
+  }
+}
