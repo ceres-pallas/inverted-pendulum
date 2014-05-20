@@ -35,4 +35,23 @@ describe('Inverted Pendulum', function(){
 	});
     });
 
+    describe('tick', function(){
+	var problem;
+
+	beforeEach(function(){
+	    problem = new InvertedPendulum();
+	});
+
+	it('should calculate the next state', function(){
+	    problem.tick();
+
+	    var s = problem.currentState();
+	    expect(s.position).toBe(0);
+	    expect(s.angle).toBe(0);
+	    expect(s.velocity).toBe(0);
+	    expect(s.angularVelocity).toBe(0);
+	});
+    });
+
+
 });

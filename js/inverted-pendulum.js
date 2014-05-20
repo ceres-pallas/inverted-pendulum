@@ -13,4 +13,7 @@
     InvertedPendulum.prototype.currentState = function(){
 	return this._currentState;
     }
+    InvertedPendulum.prototype.tick = function(){
+	// do nothing for now
+    }
 })(window || module.exports);
