@@ -21,8 +21,10 @@
     InvertedPendulum.prototype.currentState = function(){
 	return copy(this._currentState);
     }
-    InvertedPendulum.prototype.tick = function(){
+    InvertedPendulum.prototype.tick = function(acceleration){
+	acceleration = acceleration || 0;
 	var state = this.currentState();
+	state.velocity += acceleration;
 	state.position += state.velocity;
 	this._currentState = state;
     }

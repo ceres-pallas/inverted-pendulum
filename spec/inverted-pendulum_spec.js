@@ -78,6 +78,20 @@ describe('Inverted Pendulum', function(){
 		expect(s.velocity).toBe(1);
 		expect(s.angularVelocity).toBe(0);
 	    });
+
+	    it('should constant acceleration correctly', function(){
+		var problem = new InvertedPendulum({
+		    position: 0, velocity: 0, angle: startAngle, angularVelocity: 0
+		});
+
+		problem.tick(1);
+
+		var s = problem.currentState();
+		expect(s.position).toBe(1);
+		expect(s.angle).toBe(startAngle);
+		expect(s.velocity).toBe(1);
+		expect(s.angularVelocity).toBe(0);
+	    });
 	});
     });
 
