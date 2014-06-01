@@ -37,6 +37,34 @@ describe('Inverted Pendulum View', function(){
 
 	    expect(containers.length).toBe(1);
 	});
+
+	describe('container', function(){
+	    var view;
+
+	    beforeEach(function(){
+		view = new InvertedPendulumView(parent, problem);
+	    });
+
+	    it('should contain a canvas', function(){
+		var container = view.container();
+
+		var canvasses = container.getElementsByTagName('canvas');
+
+		expect(canvasses.length).toBe(1);
+	    });
+
+	    describe('canvas', function(){
+		var canvas;
+
+		beforeEach(function(){
+		    canvas = view.container().getElementsByTagName('canvas')[0];
+		});
+
+		it('should be defined', function(){
+		    expect(canvas).toBeDefined();
+		});
+	    });
+	});
     });
 
     afterEach(function(){
