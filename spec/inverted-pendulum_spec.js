@@ -48,18 +48,20 @@ describe('Inverted Pendulum', function(){
 	    expect(s.angularVelocity).toBe(0);
 	});
 
-	it('should calculate stationary state when angular velocity is non-zero', function(){
-	    var problem = new InvertedPendulum({
-		position: 0, velocity: 0, angle: 0, angularVelocity: 1
+	describe('with pendulum at PI/2', function(){
+	    it('should calculate stationary state', function(){
+		var problem = new InvertedPendulum({
+		    position: 0, velocity: 0, angle: Math.PI/2, angularVelocity: 0
+		});
+
+		problem.tick();
+
+		var s = problem.currentState();
+		expect(s.position).toBe(0);
+		expect(s.angle).toBe(Math.PI/2);
+		expect(s.velocity).toBe(0);
+		expect(s.angularVelocity).toBe(0);
 	    });
-
-	    problem.tick();
-
-	    var s = problem.currentState();
-	    expect(s.position).toBe(0);
-	    expect(s.angle).toBe(1);
-	    expect(s.velocity).toBe(0);
-	    expect(s.angularVelocity).toBe(1);
 	});
     });
 
