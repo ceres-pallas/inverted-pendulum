@@ -1,16 +1,16 @@
 describe('World', function(){
     it('should exist', function(){
-	expect(World).toBeDefined();
+        expect(World).toBeDefined();
     });
 
     it('should be instantiated', function(){
-	expect(new World()).toBeDefined();
+        expect(new World()).toBeDefined();
     });
 
     it('should provide inverted pendulum problems', function(){
-	var world = new World();
+        var world = new World();
 
-	expect(world.createInvertedPendulum()).toBeDefined();
+        expect(world.createInvertedPendulum()).toBeDefined();
     });
 });
 
@@ -18,7 +18,7 @@ describe('Inverted Pendulum', function(){
     var world;
 
     beforeEach(function(){
-	world = new World();
+        world = new World();
     })
 
     it('should be instantiated', function(){
@@ -123,13 +123,13 @@ describe('Inverted Pendulum', function(){
             });
 
             describe('with altered delta', function(){
-		beforeEach(function(){
-		    world = new World({ 'delta': 1/2 })
-		});
+                beforeEach(function(){
+                    world = new World({ 'delta': 1/2 })
+                });
 
-		it('should calculate stationary state', function(){
+                it('should calculate stationary state', function(){
                     var problem = world.createInvertedPendulum({
-			angle: startAngle
+                        angle: startAngle
                     });
 
                     problem.tick();
@@ -139,11 +139,11 @@ describe('Inverted Pendulum', function(){
                     expect(s.angle).toBeCloseTo(startAngle, 0.01);
                     expect(s.velocity).toBeCloseTo(0, 0.01);
                     expect(s.angularVelocity).toBeCloseTo(0, 0.01);
-		});
+                });
 
-		it('should calculate linear displacement', function(){
+                it('should calculate linear displacement', function(){
                     var problem = world.createInvertedPendulum({
-			velocity: 1, angle: startAngle
+                        velocity: 1, angle: startAngle
                     });
 
                     problem.tick();
@@ -153,11 +153,11 @@ describe('Inverted Pendulum', function(){
                     expect(s.angle).toBeCloseTo(startAngle, 0.01);
                     expect(s.velocity).toBeCloseTo(1, 0.01);
                     expect(s.angularVelocity).toBeCloseTo(0, 0.01);
-		});
+                });
 
-		it('should constant acceleration correctly', function(){
+                it('should constant acceleration correctly', function(){
                     var problem = world.createInvertedPendulum({
-			angle: startAngle
+                        angle: startAngle
                     });
 
                     problem.tick(1);
@@ -167,17 +167,17 @@ describe('Inverted Pendulum', function(){
                     expect(s.angle).toBeCloseTo(startAngle, 0.01);
                     expect(s.velocity).toBeCloseTo(1/2, 0.01);
                     expect(s.angularVelocity).toBeCloseTo(0, 0.01);
-		});
+                });
             });
 
             describe('with altered mass cart', function(){
-		beforeEach(function(){
-		    world = new World({ 'M': 2 })
-		});
+                beforeEach(function(){
+                    world = new World({ 'M': 2 })
+                });
 
-		it('should calculate stationary state', function(){
+                it('should calculate stationary state', function(){
                     var problem = world.createInvertedPendulum({
-			angle: startAngle
+                        angle: startAngle
                     });
 
                     problem.tick();
@@ -187,11 +187,11 @@ describe('Inverted Pendulum', function(){
                     expect(s.angle).toBeCloseTo(startAngle, 0.01);
                     expect(s.velocity).toBeCloseTo(0, 0.01);
                     expect(s.angularVelocity).toBeCloseTo(0, 0.01);
-		});
+                });
 
-		it('should calculate linear displacement', function(){
+                it('should calculate linear displacement', function(){
                     var problem = world.createInvertedPendulum({
-			velocity: 1, angle: startAngle
+                        velocity: 1, angle: startAngle
                     });
 
                     problem.tick();
@@ -201,11 +201,11 @@ describe('Inverted Pendulum', function(){
                     expect(s.angle).toBeCloseTo(startAngle, 0.01);
                     expect(s.velocity).toBeCloseTo(1, 0.01);
                     expect(s.angularVelocity).toBeCloseTo(0, 0.01);
-		});
+                });
 
-		it('should constant acceleration correctly', function(){
+                it('should constant acceleration correctly', function(){
                     var problem = world.createInvertedPendulum({
-			angle: startAngle
+                        angle: startAngle
                     });
 
                     problem.tick(1);
@@ -215,36 +215,36 @@ describe('Inverted Pendulum', function(){
                     expect(s.angle).toBeCloseTo(startAngle, 0.01);
                     expect(s.velocity).toBeCloseTo(1/2, 0.01);
                     expect(s.angularVelocity).toBeCloseTo(0, 0.01);
-		});
+                });
             });
         });
 
-	describe('with pendulum at PI/6', function(){
-	    var startAngle = Math.PI/6;
+        describe('with pendulum at PI/6', function(){
+            var startAngle = Math.PI/6;
 
-	    it('it should accelerate the cart', function(){
-		var problem = world.createInvertedPendulum({
-		    angle: startAngle
-		});
+            it('it should accelerate the cart', function(){
+                var problem = world.createInvertedPendulum({
+                    angle: startAngle
+                });
 
-		problem.tick();
+                problem.tick();
 
-		var s = problem.currentState();
-		expect(s.position).toBeCloseTo(-Math.sqrt(3)/4, 0.01);
-		expect(s.velocity).toBeCloseTo(-Math.sqrt(3)/4, 0.01);
-	    })
+                var s = problem.currentState();
+                expect(s.position).toBeCloseTo(-Math.sqrt(3)/4, 0.01);
+                expect(s.velocity).toBeCloseTo(-Math.sqrt(3)/4, 0.01);
+            })
 
-	    it('it should accelerate the pendulum', function(){
-		var problem = world.createInvertedPendulum({
-		    angle: startAngle
-		});
+            it('it should accelerate the pendulum', function(){
+                var problem = world.createInvertedPendulum({
+                    angle: startAngle
+                });
 
-		problem.tick();
+                problem.tick();
 
-		var s = problem.currentState();
-		expect(s.angle).toBeCloseTo(s.angle, 0.01);
-		expect(s.angularVelocity).toBeCloseTo(Math.sin(startAngle), 0.01);
-	    })
-	});
+                var s = problem.currentState();
+                expect(s.angle).toBeCloseTo(s.angle, 0.01);
+                expect(s.angularVelocity).toBeCloseTo(Math.sin(startAngle), 0.01);
+            })
+        });
     });
 });
