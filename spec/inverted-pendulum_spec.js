@@ -151,5 +151,52 @@ describe('Inverted Pendulum', function(){
                 expect(s.angularVelocity).toBe(0);
             });
         });
+
+        describe('with altered mass cart', function(){
+            var startAngle = Math.PI/2;
+            var M  = 2;
+
+            it('should calculate stationary state', function(){
+                var problem = new InvertedPendulum({
+                    angle: startAngle, M: M
+                });
+
+                problem.tick();
+
+                var s = problem.currentState();
+                expect(s.position).toBe(0);
+                expect(s.angle).toBe(startAngle);
+                expect(s.velocity).toBe(0);
+                expect(s.angularVelocity).toBe(0);
+            });
+
+            it('should calculate linear displacement', function(){
+                var problem = new InvertedPendulum({
+                    velocity: 1, angle: startAngle, M: M
+                });
+
+                problem.tick();
+
+                var s = problem.currentState();
+                expect(s.position).toBe(1);
+                expect(s.angle).toBe(startAngle);
+                expect(s.velocity).toBe(1);
+                expect(s.angularVelocity).toBe(0);
+            });
+
+            it('should constant acceleration correctly', function(){
+                var problem = new InvertedPendulum({
+                    angle: startAngle, M: M
+                });
+
+                problem.tick(1);
+
+                var s = problem.currentState();
+                expect(s.position).toBe(1/2);
+                expect(s.angle).toBe(startAngle);
+                expect(s.velocity).toBe(1/2);
+                expect(s.angularVelocity).toBe(0);
+            });
+        });
     });
 });
