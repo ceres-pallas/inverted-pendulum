@@ -11,7 +11,8 @@
 	position : 0,
 	angle: 0,
 	velocity: 0,
-	angularVelocity: 0
+	angularVelocity: 0,
+	delta : 1
     };
 
     var InvertedPendulum = $.InvertedPendulum = function(state){
@@ -29,8 +30,8 @@
     InvertedPendulum.prototype.tick = function(acceleration){
 	acceleration = acceleration || 0;
 	var state = this.currentState();
-	state.velocity += acceleration;
-	state.position += state.velocity;
+	state.velocity += acceleration * state.delta;
+	state.position += state.velocity * state.delta;
 	this._currentState = state;
     }
 })(window || module.exports);
