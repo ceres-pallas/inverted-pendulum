@@ -1,4 +1,4 @@
-(function($){
+(function($, Observable){
     var copy = function(object) {
         var c = {};
         for (var key in object) {
@@ -32,6 +32,7 @@
     };
 
     var InvertedPendulum = function(world, state){
+	Observable.call(this);
         this.world = world;
         this._currentState = copy(state || defaultState);
         for (var key in defaultState) {
@@ -40,7 +41,7 @@
             }
         }
     };
-
+    InvertedPendulum.prototype = new Observable();
     InvertedPendulum.prototype.currentState = function(){
         return copy(this._currentState);
     }
@@ -67,5 +68,6 @@
             state.angularVelocity = 0;
         }
         this._currentState = state;
+	this.notify(this.currentState());
     }
-})(window || module.exports);
+})(window || module.exports, Observable);

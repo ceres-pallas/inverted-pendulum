@@ -25,6 +25,10 @@ describe('Inverted Pendulum', function(){
         expect(world.createInvertedPendulum()).toBeDefined();
     });
 
+    it('should be observable', function(){
+	expect(world.createInvertedPendulum() instanceof Observable).toBeTruthy();
+    });
+
     describe('states', function(){
         it('should have current state', function(){
             var problem = world.createInvertedPendulum();
@@ -76,6 +80,28 @@ describe('Inverted Pendulum', function(){
             expect(s.velocity).toBeCloseTo(0, 0.01);
             expect(s.angularVelocity).toBeCloseTo(0, 0.01);
         });
+
+	it('should notify on tick', function(){
+	    var problem = world.createInvertedPendulum();
+	    var called = false;
+	    problem.addObserver(function(){ called = true; });
+
+	    problem.tick();
+
+	    expect(called).toBeTruthy();
+	});
+
+	it('should notify of current state', function(){
+	    var problem = world.createInvertedPendulum();
+	    var s = undefined;
+	    problem.addObserver(function(state){ s = state; });
+
+	    problem.tick();
+            expect(s.position).toBeCloseTo(0, 0.01);
+            expect(s.angle).toBeCloseTo(0, 0.01);
+            expect(s.velocity).toBeCloseTo(0, 0.01);
+            expect(s.angularVelocity).toBeCloseTo(0, 0.01);
+	});
 
         describe('with pendulum at PI/2', function(){
             var startAngle = Math.PI/2;
