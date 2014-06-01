@@ -31,7 +31,7 @@
         angularVelocity: 0,
     };
 
-    var InvertedPendulum = $.InvertedPendulum = function(world, state){
+    var InvertedPendulum = function(world, state){
         this.world = world;
         this._currentState = copy(state || defaultState);
         for (var key in defaultState) {
