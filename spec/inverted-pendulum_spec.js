@@ -1,15 +1,33 @@
-describe('Inverted Pendulum', function(){
+describe('World', function(){
     it('should exist', function(){
-        expect(InvertedPendulum).toBeDefined();
+	expect(World).toBeDefined();
     });
 
     it('should be instantiated', function(){
-        expect(new InvertedPendulum()).toBeDefined();
+	expect(new World()).toBeDefined();
+    });
+
+    it('should provide inverted pendulum problems', function(){
+	var world = new World();
+
+	expect(world.createInvertedPendulum()).toBeDefined();
+    });
+});
+
+describe('Inverted Pendulum', function(){
+    var world;
+
+    beforeEach(function(){
+	world = new World();
+    })
+
+    it('should be instantiated', function(){
+        expect(world.createInvertedPendulum()).toBeDefined();
     });
 
     describe('states', function(){
         it('should have current state', function(){
-            var problem = new InvertedPendulum();
+            var problem = world.createInvertedPendulum();
             var s = problem.currentState();
 
             expect(s.position).toBeCloseTo(0, 0.01);
@@ -25,7 +43,7 @@ describe('Inverted Pendulum', function(){
                 velocity: -3,
                 angularVelocity: 1
             };
-            var problem = new InvertedPendulum(start);
+            var problem = world.createInvertedPendulum(start);
             var s = problem.currentState();
 
             expect(s.position).toBeCloseTo(start.position, 0.01);
@@ -36,7 +54,7 @@ describe('Inverted Pendulum', function(){
 
         it('should complete state if not every detail is provided', function(){
             var start = { position: 1 };
-            var problem = new InvertedPendulum(start);
+            var problem = world.createInvertedPendulum(start);
             var s = problem.currentState();
 
             expect(s.position).toBeCloseTo(start.position, 0.01);
@@ -48,7 +66,7 @@ describe('Inverted Pendulum', function(){
 
     describe('tick', function(){
         it('should calculate stationary state correctly', function(){
-            var problem = new InvertedPendulum();
+            var problem = world.createInvertedPendulum();
 
             problem.tick();
 
@@ -63,7 +81,7 @@ describe('Inverted Pendulum', function(){
             var startAngle = Math.PI/2;
 
             it('should calculate stationary state', function(){
-                var problem = new InvertedPendulum({
+                var problem = world.createInvertedPendulum({
                     position: 0, velocity: 0, angle: startAngle, angularVelocity: 0
                 });
 
@@ -77,7 +95,7 @@ describe('Inverted Pendulum', function(){
             });
 
             it('should calculate linear displacement', function(){
-                var problem = new InvertedPendulum({
+                var problem = world.createInvertedPendulum({
                     position: 0, velocity: 1, angle: startAngle, angularVelocity: 0
                 });
 
@@ -91,7 +109,7 @@ describe('Inverted Pendulum', function(){
             });
 
             it('should constant acceleration correctly', function(){
-                var problem = new InvertedPendulum({
+                var problem = world.createInvertedPendulum({
                     position: 0, velocity: 0, angle: startAngle, angularVelocity: 0
                 });
 
@@ -105,11 +123,13 @@ describe('Inverted Pendulum', function(){
             });
 
             describe('with altered delta', function(){
-		var delta  = 1/2;
+		beforeEach(function(){
+		    world = new World({ 'delta': 1/2 })
+		});
 
 		it('should calculate stationary state', function(){
-                    var problem = new InvertedPendulum({
-			angle: startAngle, delta: delta
+                    var problem = world.createInvertedPendulum({
+			angle: startAngle
                     });
 
                     problem.tick();
@@ -122,8 +142,8 @@ describe('Inverted Pendulum', function(){
 		});
 
 		it('should calculate linear displacement', function(){
-                    var problem = new InvertedPendulum({
-			velocity: 1, angle: startAngle, delta: delta
+                    var problem = world.createInvertedPendulum({
+			velocity: 1, angle: startAngle
                     });
 
                     problem.tick();
@@ -136,8 +156,8 @@ describe('Inverted Pendulum', function(){
 		});
 
 		it('should constant acceleration correctly', function(){
-                    var problem = new InvertedPendulum({
-			angle: startAngle, delta: delta
+                    var problem = world.createInvertedPendulum({
+			angle: startAngle
                     });
 
                     problem.tick(1);
@@ -151,11 +171,13 @@ describe('Inverted Pendulum', function(){
             });
 
             describe('with altered mass cart', function(){
-		var M  = 2;
+		beforeEach(function(){
+		    world = new World({ 'M': 2 })
+		});
 
 		it('should calculate stationary state', function(){
-                    var problem = new InvertedPendulum({
-			angle: startAngle, M: M
+                    var problem = world.createInvertedPendulum({
+			angle: startAngle
                     });
 
                     problem.tick();
@@ -168,8 +190,8 @@ describe('Inverted Pendulum', function(){
 		});
 
 		it('should calculate linear displacement', function(){
-                    var problem = new InvertedPendulum({
-			velocity: 1, angle: startAngle, M: M
+                    var problem = world.createInvertedPendulum({
+			velocity: 1, angle: startAngle
                     });
 
                     problem.tick();
@@ -182,8 +204,8 @@ describe('Inverted Pendulum', function(){
 		});
 
 		it('should constant acceleration correctly', function(){
-                    var problem = new InvertedPendulum({
-			angle: startAngle, M: M
+                    var problem = world.createInvertedPendulum({
+			angle: startAngle
                     });
 
                     problem.tick(1);
@@ -201,7 +223,7 @@ describe('Inverted Pendulum', function(){
 	    var startAngle = Math.PI/6;
 
 	    it('it should accelerate the cart', function(){
-		var problem = new InvertedPendulum({
+		var problem = world.createInvertedPendulum({
 		    angle: startAngle
 		});
 
@@ -213,7 +235,7 @@ describe('Inverted Pendulum', function(){
 	    })
 
 	    it('it should accelerate the pendulum', function(){
-		var problem = new InvertedPendulum({
+		var problem = world.createInvertedPendulum({
 		    angle: startAngle
 		});
 

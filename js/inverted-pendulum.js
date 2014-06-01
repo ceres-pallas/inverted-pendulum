@@ -7,19 +7,33 @@
         return c;
     };
 
-    var defaultState = {
-        position : 0,
-        angle: 0,
-        velocity: 0,
-        angularVelocity: 0,
-        delta : 1,
+
+    var defaultWorldParameters = {
+	delta: 1,
 	M : 1,
 	m : 1,
 	g : 1,
 	l : 1
     };
+    var World = $.World = function(worldParameters){
+	worldParameters = copy(worldParameters || defaultWorldParameters);
+	for (var key in defaultWorldParameters) {
+	    this[key] = worldParameters[key] || defaultWorldParameters[key];
+	}
+    };
+    World.prototype.createInvertedPendulum = function(state){
+	return new InvertedPendulum(this, state);
+    }
 
-    var InvertedPendulum = $.InvertedPendulum = function(state){
+    var defaultState = {
+        position : 0,
+        angle: 0,
+        velocity: 0,
+        angularVelocity: 0,
+    };
+
+    var InvertedPendulum = $.InvertedPendulum = function(world, state){
+	this.world = world;
         this._currentState = copy(state || defaultState);
         for (var key in defaultState) {
             if (!this._currentState[key]) {
@@ -35,15 +49,15 @@
         force = force || 0;
         var state = this.currentState();
 	var acceleration = 0;
-	acceleration += - state.m * state.g * Math.sin(2 * state.angle)/(2 * state.M);
-	acceleration += force / state.M;
-        state.velocity += acceleration * state.delta;
-        state.position += state.velocity * state.delta;
+	acceleration += - this.world.m * this.world.g * Math.sin(2 * state.angle)/(2 * this.world.M);
+	acceleration += force / this.world.M;
+        state.velocity += acceleration * this.world.delta;
+        state.position += state.velocity * this.world.delta;
 
 	var angularAcceleration = 0;
-	angularAcceleration += state.m * state.g * Math.sin(state.angle)/ state.l;
-	state.angularVelocity += angularAcceleration * state.delta;
-	state.angle += state.angularVelocity * state.delta;
+	angularAcceleration += this.world.m * this.world.g * Math.sin(state.angle)/ this.world.l;
+	state.angularVelocity += angularAcceleration * this.world.delta;
+	state.angle += state.angularVelocity * this.world.delta;
 
 	if (state.angle >= Math.PI/2) {
 	    state.angle = Math.PI/2;
