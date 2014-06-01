@@ -98,105 +98,131 @@ describe('Inverted Pendulum', function(){
                 problem.tick(1);
 
                 var s = problem.currentState();
-                expect(s.position).toBe(1);
-                expect(s.angle).toBe(startAngle);
-                expect(s.velocity).toBe(1);
-                expect(s.angularVelocity).toBe(0);
+                expect(s.position).toBeCloseTo(1, 0.01);
+                expect(s.angle).toBeCloseTo(startAngle, 0.01);
+                expect(s.velocity).toBeCloseTo(1, 0.01);
+                expect(s.angularVelocity).toBeCloseTo(0, 0.01);
+            });
+
+            describe('with altered delta', function(){
+		var delta  = 1/2;
+
+		it('should calculate stationary state', function(){
+                    var problem = new InvertedPendulum({
+			angle: startAngle, delta: delta
+                    });
+
+                    problem.tick();
+
+                    var s = problem.currentState();
+                    expect(s.position).toBeCloseTo(0, 0.01);
+                    expect(s.angle).toBeCloseTo(startAngle, 0.01);
+                    expect(s.velocity).toBeCloseTo(0, 0.01);
+                    expect(s.angularVelocity).toBeCloseTo(0, 0.01);
+		});
+
+		it('should calculate linear displacement', function(){
+                    var problem = new InvertedPendulum({
+			velocity: 1, angle: startAngle, delta: delta
+                    });
+
+                    problem.tick();
+
+                    var s = problem.currentState();
+                    expect(s.position).toBeCloseTo(1/2, 0.01);
+                    expect(s.angle).toBeCloseTo(startAngle, 0.01);
+                    expect(s.velocity).toBeCloseTo(1, 0.01);
+                    expect(s.angularVelocity).toBeCloseTo(0, 0.01);
+		});
+
+		it('should constant acceleration correctly', function(){
+                    var problem = new InvertedPendulum({
+			angle: startAngle, delta: delta
+                    });
+
+                    problem.tick(1);
+
+                    var s = problem.currentState();
+                    expect(s.position).toBeCloseTo(1/4, 0.01);
+                    expect(s.angle).toBeCloseTo(startAngle, 0.01);
+                    expect(s.velocity).toBeCloseTo(1/2, 0.01);
+                    expect(s.angularVelocity).toBeCloseTo(0, 0.01);
+		});
+            });
+
+            describe('with altered mass cart', function(){
+		var M  = 2;
+
+		it('should calculate stationary state', function(){
+                    var problem = new InvertedPendulum({
+			angle: startAngle, M: M
+                    });
+
+                    problem.tick();
+
+                    var s = problem.currentState();
+                    expect(s.position).toBeCloseTo(0, 0.01);
+                    expect(s.angle).toBeCloseTo(startAngle, 0.01);
+                    expect(s.velocity).toBeCloseTo(0, 0.01);
+                    expect(s.angularVelocity).toBeCloseTo(0, 0.01);
+		});
+
+		it('should calculate linear displacement', function(){
+                    var problem = new InvertedPendulum({
+			velocity: 1, angle: startAngle, M: M
+                    });
+
+                    problem.tick();
+
+                    var s = problem.currentState();
+                    expect(s.position).toBeCloseTo(1, 0.01);
+                    expect(s.angle).toBeCloseTo(startAngle, 0.01);
+                    expect(s.velocity).toBeCloseTo(1, 0.01);
+                    expect(s.angularVelocity).toBeCloseTo(0, 0.01);
+		});
+
+		it('should constant acceleration correctly', function(){
+                    var problem = new InvertedPendulum({
+			angle: startAngle, M: M
+                    });
+
+                    problem.tick(1);
+
+                    var s = problem.currentState();
+                    expect(s.position).toBeCloseTo(1/2, 0.01);
+                    expect(s.angle).toBeCloseTo(startAngle, 0.01);
+                    expect(s.velocity).toBeCloseTo(1/2, 0.01);
+                    expect(s.angularVelocity).toBeCloseTo(0, 0.01);
+		});
             });
         });
 
-        describe('with altered delta', function(){
-            var startAngle = Math.PI/2;
-            var delta  = 1/2;
+	describe('with pendulum at PI/6', function(){
+	    var startAngle = Math.PI/6;
 
-            it('should calculate stationary state', function(){
-                var problem = new InvertedPendulum({
-                    angle: startAngle, delta: delta
-                });
+	    it('it should accelerate the cart', function(){
+		var problem = new InvertedPendulum({
+		    angle: startAngle
+		});
 
-                problem.tick();
+		problem.tick();
 
-                var s = problem.currentState();
-                expect(s.position).toBe(0);
-                expect(s.angle).toBe(startAngle);
-                expect(s.velocity).toBe(0);
-                expect(s.angularVelocity).toBe(0);
-            });
+		var s = problem.currentState();
+		expect(s.position).toBeCloseTo(-Math.sqrt(3)/4, 0.01);
+		expect(s.velocity).toBeCloseTo(-Math.sqrt(3)/4, 0.01);
+	    })
 
-            it('should calculate linear displacement', function(){
-                var problem = new InvertedPendulum({
-                    velocity: 1, angle: startAngle, delta: delta
-                });
+	    it('it should accelerate the pendulum', function(){
+		var problem = new InvertedPendulum({
+		    angle: startAngle
+		});
 
-                problem.tick();
+		problem.tick();
 
-                var s = problem.currentState();
-                expect(s.position).toBe(1/2);
-                expect(s.angle).toBe(startAngle);
-                expect(s.velocity).toBe(1);
-                expect(s.angularVelocity).toBe(0);
-            });
-
-            it('should constant acceleration correctly', function(){
-                var problem = new InvertedPendulum({
-                    angle: startAngle, delta: delta
-                });
-
-                problem.tick(1);
-
-                var s = problem.currentState();
-                expect(s.position).toBe(1/4);
-                expect(s.angle).toBe(startAngle);
-                expect(s.velocity).toBe(1/2);
-                expect(s.angularVelocity).toBe(0);
-            });
-        });
-
-        describe('with altered mass cart', function(){
-            var startAngle = Math.PI/2;
-            var M  = 2;
-
-            it('should calculate stationary state', function(){
-                var problem = new InvertedPendulum({
-                    angle: startAngle, M: M
-                });
-
-                problem.tick();
-
-                var s = problem.currentState();
-                expect(s.position).toBe(0);
-                expect(s.angle).toBe(startAngle);
-                expect(s.velocity).toBe(0);
-                expect(s.angularVelocity).toBe(0);
-            });
-
-            it('should calculate linear displacement', function(){
-                var problem = new InvertedPendulum({
-                    velocity: 1, angle: startAngle, M: M
-                });
-
-                problem.tick();
-
-                var s = problem.currentState();
-                expect(s.position).toBe(1);
-                expect(s.angle).toBe(startAngle);
-                expect(s.velocity).toBe(1);
-                expect(s.angularVelocity).toBe(0);
-            });
-
-            it('should constant acceleration correctly', function(){
-                var problem = new InvertedPendulum({
-                    angle: startAngle, M: M
-                });
-
-                problem.tick(1);
-
-                var s = problem.currentState();
-                expect(s.position).toBe(1/2);
-                expect(s.angle).toBe(startAngle);
-                expect(s.velocity).toBe(1/2);
-                expect(s.angularVelocity).toBe(0);
-            });
-        });
+		var s = problem.currentState();
+		expect(s.angle).toBeCloseTo(s.angle, 0.01);
+		expect(s.angularVelocity).toBeCloseTo(Math.sin(startAngle), 0.01);
+	    })
+	});
     });
 });
