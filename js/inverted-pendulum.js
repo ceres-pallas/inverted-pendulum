@@ -22,8 +22,8 @@
 	return copy(this._currentState);
     }
     InvertedPendulum.prototype.tick = function(){
-	var state = this.currentState();;
-	state.angle += state.angularVelocity;
+	var state = this.currentState();
+	state.position += state.velocity;
 	this._currentState = state;
     }
 })(window || module.exports);
