@@ -16,6 +16,11 @@
 
     var InvertedPendulum = $.InvertedPendulum = function(state){
 	this._currentState = copy(state || defaultState);
+	for (var key in defaultState) {
+	    if (!this._currentState[key]) {
+		this._currentState[key] = defaultState[key];
+	    }
+	}
     };
 
     InvertedPendulum.prototype.currentState = function(){

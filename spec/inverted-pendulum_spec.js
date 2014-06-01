@@ -33,6 +33,17 @@ describe('Inverted Pendulum', function(){
 	    expect(s.velocity).toBe(start.velocity);
 	    expect(s.angularVelocity).toBe(start.angularVelocity);
 	});
+
+	it('should complete state if not every detail is provided', function(){
+	    var start = { position: 1 };
+	    var problem = new InvertedPendulum(start);
+	    var s = problem.currentState();
+
+	    expect(s.position).toBe(start.position);
+	    expect(s.angle).toBe(0);
+	    expect(s.velocity).toBe(0);
+	    expect(s.angularVelocity).toBe(0);
+	});
     });
 
     describe('tick', function(){
