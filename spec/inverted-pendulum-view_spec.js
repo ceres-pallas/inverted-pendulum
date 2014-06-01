@@ -6,12 +6,37 @@ describe('Inverted Pendulum View', function(){
         body.appendChild(container);
     });
 
+    it('should exist', function(){
+	expect(InvertedPendulumView).toBeDefined();
+    });
+
     describe('Setup', function(){
         it('should have created a test container', function(){
             var testContainer = document.getElementById('test-container');
 
             expect(testContainer).toBeDefined();
         });
+    });
+
+    describe('dom structure', function(){
+	var parent;
+	var problem;
+
+	beforeEach(function(){
+	    parent = document.getElementById('test-container');
+	});
+
+	beforeEach(function(){
+	    problem = (new World()).createInvertedPendulum();
+	});
+
+	it('should create a container', function(){
+	    new InvertedPendulumView(parent, problem);
+
+	    var containers = parent.getElementsByTagName('div');
+
+	    expect(containers.length).toBe(1);
+	});
     });
 
     afterEach(function(){
