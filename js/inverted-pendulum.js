@@ -13,7 +13,9 @@
         velocity: 0,
         angularVelocity: 0,
         delta : 1,
-	M : 1
+	M : 1,
+	m : 1,
+	g : 1
     };
 
     var InvertedPendulum = $.InvertedPendulum = function(state){
@@ -31,7 +33,9 @@
     InvertedPendulum.prototype.tick = function(force){
         force = force || 0;
         var state = this.currentState();
-	var acceleration = force / state.M;
+	var acceleration = 0;
+	//acceleration += - state.m * state.g * Math.sin(2 * state.angle);
+	acceleration += force / state.M;
         state.velocity += acceleration * state.delta;
         state.position += state.velocity * state.delta;
         this._currentState = state;

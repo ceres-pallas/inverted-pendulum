@@ -12,10 +12,10 @@ describe('Inverted Pendulum', function(){
             var problem = new InvertedPendulum();
             var s = problem.currentState();
 
-            expect(s.position).toBe(0);
-            expect(s.angle).toBe(0);
-            expect(s.velocity).toBe(0);
-            expect(s.angularVelocity).toBe(0);
+            expect(s.position).toBeCloseTo(0, 0.01);
+            expect(s.angle).toBeCloseTo(0, 0.01);
+            expect(s.velocity).toBeCloseTo(0, 0.01);
+            expect(s.angularVelocity).toBeCloseTo(0, 0.01);
         });
 
         it('should be possible to override default state', function(){
@@ -28,10 +28,10 @@ describe('Inverted Pendulum', function(){
             var problem = new InvertedPendulum(start);
             var s = problem.currentState();
 
-            expect(s.position).toBe(start.position);
-            expect(s.angle).toBe(start.angle);
-            expect(s.velocity).toBe(start.velocity);
-            expect(s.angularVelocity).toBe(start.angularVelocity);
+            expect(s.position).toBeCloseTo(start.position, 0.01);
+            expect(s.angle).toBeCloseTo(start.angle, 0.01);
+            expect(s.velocity).toBeCloseTo(start.velocity, 0.01);
+            expect(s.angularVelocity).toBeCloseTo(start.angularVelocity, 0.01);
         });
 
         it('should complete state if not every detail is provided', function(){
@@ -39,10 +39,10 @@ describe('Inverted Pendulum', function(){
             var problem = new InvertedPendulum(start);
             var s = problem.currentState();
 
-            expect(s.position).toBe(start.position);
-            expect(s.angle).toBe(0);
-            expect(s.velocity).toBe(0);
-            expect(s.angularVelocity).toBe(0);
+            expect(s.position).toBeCloseTo(start.position, 0.01);
+            expect(s.angle).toBeCloseTo(0, 0.01);
+            expect(s.velocity).toBeCloseTo(0, 0.01);
+            expect(s.angularVelocity).toBeCloseTo(0, 0.01);
         });
     });
 
@@ -53,10 +53,10 @@ describe('Inverted Pendulum', function(){
             problem.tick();
 
             var s = problem.currentState();
-            expect(s.position).toBe(0);
-            expect(s.angle).toBe(0);
-            expect(s.velocity).toBe(0);
-            expect(s.angularVelocity).toBe(0);
+            expect(s.position).toBeCloseTo(0, 0.01);
+            expect(s.angle).toBeCloseTo(0, 0.01);
+            expect(s.velocity).toBeCloseTo(0, 0.01);
+            expect(s.angularVelocity).toBeCloseTo(0, 0.01);
         });
 
         describe('with pendulum at PI/2', function(){
@@ -70,10 +70,10 @@ describe('Inverted Pendulum', function(){
                 problem.tick();
 
                 var s = problem.currentState();
-                expect(s.position).toBe(0);
-                expect(s.angle).toBe(startAngle);
-                expect(s.velocity).toBe(0);
-                expect(s.angularVelocity).toBe(0);
+                expect(s.position).toBeCloseTo(0, 0.01);
+                expect(s.angle).toBeCloseTo(startAngle, 0.01);
+                expect(s.velocity).toBeCloseTo(0, 0.01);
+                expect(s.angularVelocity).toBeCloseTo(0, 0.01);
             });
 
             it('should calculate linear displacement', function(){
@@ -84,10 +84,10 @@ describe('Inverted Pendulum', function(){
                 problem.tick();
 
                 var s = problem.currentState();
-                expect(s.position).toBe(1);
-                expect(s.angle).toBe(startAngle);
-                expect(s.velocity).toBe(1);
-                expect(s.angularVelocity).toBe(0);
+                expect(s.position).toBeCloseTo(1, 0.01);
+                expect(s.angle).toBeCloseTo(startAngle, 0.01);
+                expect(s.velocity).toBeCloseTo(1, 0.01);
+                expect(s.angularVelocity).toBeCloseTo(0, 0.01);
             });
 
             it('should constant acceleration correctly', function(){
