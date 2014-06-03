@@ -29,6 +29,7 @@
 	    'wheel': 5,
 	    'thickness': 2,
 	    'length': 100,
+	    'position': -50
 	}
 	ctx.strokeRect(0, 0, options.width, options.height);
 
@@ -43,6 +44,7 @@
 
 	ctx.save();
 	ctx.translate(options.width/2, options.horizon + options.wheel);
+	ctx.translate(options.position, 0);
 	ctx.beginPath();
 	ctx.rect(-2 * options.wheel, 0, 4 * options.wheel, options.wheel);
 	ctx.arc(-options.wheel, 0, options.wheel, Math.PI, 0, false);
@@ -52,6 +54,7 @@
 
 	ctx.save();
 	ctx.translate(options.width/2, options.horizon + 2 * options.wheel);
+	ctx.translate(options.position, 0);
 	ctx.beginPath();
 	ctx.moveTo(-options.thickness, 0);
 	ctx.lineTo(options.length * Math.sin(Math.PI/3) - options.thickness, options.length * Math.cos(Math.PI/3));
