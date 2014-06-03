@@ -22,32 +22,41 @@
     }
     CanvasView.prototype.update = function(){
 	var ctx = this.context();
-	ctx.strokeRect(0, 0, 640, 479);
+	var options = {
+	    'width': 640,
+	    'height' : 480,
+	    'horizon': 10,
+	    'wheel': 5,
+	    'thickness': 2,
+	    'length': 100,
+	}
+	ctx.strokeRect(0, 0, options.width, options.height);
+
 
 	ctx.save();
-	ctx.translate(0, 10)
+	ctx.translate(0, options.horizon);
 	ctx.beginPath();
 	ctx.moveTo(0, 0);
-	ctx.lineTo(640, 0);
+	ctx.lineTo(options.width, 0);
 	ctx.stroke();
 	ctx.restore();
 
 	ctx.save();
-	ctx.translate(640/2, 15);
+	ctx.translate(options.width/2, options.horizon + options.wheel);
 	ctx.beginPath();
-	ctx.rect(-10, 0, 20, 5);
-	ctx.arc(-5, 0, 5, Math.PI, 0, false);
-	ctx.arc( 5, 0, 5, Math.PI, 0, false);
+	ctx.rect(-2 * options.wheel, 0, 4 * options.wheel, options.wheel);
+	ctx.arc(-options.wheel, 0, options.wheel, Math.PI, 0, false);
+	ctx.arc( options.wheel, 0, options.wheel, Math.PI, 0, false);
 	ctx.stroke();
 	ctx.restore();
 
 	ctx.save();
-	ctx.translate(640/2, 20);
+	ctx.translate(options.width/2, options.horizon + 2 * options.wheel);
 	ctx.beginPath();
-	ctx.moveTo(-2, 0);
-	ctx.lineTo(100 * Math.sin(Math.PI/3)-2, 100 * Math.cos(Math.PI/3));
-	ctx.lineTo(100 * Math.sin(Math.PI/3)+2, 100 * Math.cos(Math.PI/3));
-	ctx.lineTo(2, 0);
+	ctx.moveTo(-options.thickness, 0);
+	ctx.lineTo(options.length * Math.sin(Math.PI/3) - options.thickness, options.length * Math.cos(Math.PI/3));
+	ctx.lineTo(options.length * Math.sin(Math.PI/3) + options.thickness, options.length * Math.cos(Math.PI/3));
+	ctx.lineTo(options.thickness, 0);
 	ctx.stroke();
 	ctx.restore();
     };
