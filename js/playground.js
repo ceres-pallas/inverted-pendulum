@@ -3,5 +3,5 @@
 
     var problem = world.createInvertedPendulum();
 
-    new View(document.getElementById('playground', problem));
+    new View(document.getElementById('playground'), problem);
 })(World, InvertedPendulumView);

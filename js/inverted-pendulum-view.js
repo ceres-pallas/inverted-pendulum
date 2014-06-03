@@ -27,16 +27,13 @@
 
     var CanvasView = function(parent, problem, options){
 	this.parent = parent;
+	this.problem = problem;
 	this.options = Helper.extend(options || {}).by(canvasViewOptions);
 	this.update();
     }
     CanvasView.prototype.update = function(){
 	var ctx = this.context();
-	var options = Helper.extend(this.options).by({
-	    'position': -50,
-	    'angle': Math.PI/3
-	});
-
+	var options = Helper.extend(this.options).by(this.problem.currentState());
 	this.drawBorder(ctx,options);
 	this.drawHorizon(ctx, options);
 	this.drawCart(ctx, options);
