@@ -29,6 +29,7 @@
 	this.parent = parent;
 	this.problem = problem;
 	this.options = Helper.extend(options || {}).by(canvasViewOptions);
+	this.problem.addObserver(this.update.bind(this));
 	this.update();
     }
     CanvasView.prototype.update = function(){
@@ -57,7 +58,11 @@
 	return this._context;
     }
     CanvasView.prototype.drawBorder = function(ctx, options){
+	ctx.save();
+	ctx.fillStyle = 'white';
+	ctx.fillRect(0, 0, options.width, options.height);
 	ctx.strokeRect(0, 0, options.width, options.height);
+	ctx.restore();
     }
     CanvasView.prototype.drawHorizon = function(ctx, options){
 	ctx.save();
