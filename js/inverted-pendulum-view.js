@@ -16,20 +16,23 @@
 	return this._container;
     }
 
-    var CanvasView = function(parent, problem){
+    var canvasViewOptions = {
+	'width': 640,
+	'height' : 480,
+	'horizon': 10,
+	'wheel': 5,
+	'thickness': 2,
+	'length': 100,
+    };
+
+    var CanvasView = function(parent, problem, options){
 	this.parent = parent;
+	this.options = Helper.extend(options || {}).by(canvasViewOptions);
 	this.update();
     }
     CanvasView.prototype.update = function(){
 	var ctx = this.context();
-	var options = Helper.extend({
-	    'width': 640,
-	    'height' : 480,
-	    'horizon': 10,
-	    'wheel': 5,
-	    'thickness': 2,
-	    'length': 100,
-	}).by({
+	var options = Helper.extend(this.options).by({
 	    'position': -50,
 	    'angle': Math.PI/3
 	});
