@@ -1,11 +1,5 @@
-(function($, Observable){
-    var copy = function(object) {
-        var c = {};
-        for (var key in object) {
-            c[key] = object[key];
-        }
-        return c;
-    };
+(function($, Helper, Observable){
+    var copy = Helper.copy;
 
     var defaultWorldParameters = {
         delta: 1,
@@ -70,4 +64,4 @@
         this._currentState = state;
 	this.notify(this.currentState());
     }
-})(window || module.exports, Observable);
+})(window || module.exports, Helper, Observable);
