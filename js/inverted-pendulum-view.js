@@ -21,9 +21,25 @@
 	this.update();
     }
     CanvasView.prototype.update = function(){
-	var canvas = this.container();
-	var ctx = canvas.getContext('2d');
-	ctx.strokeRect(0, 0, 640, 480);
+	var ctx = this.context();
+	ctx.strokeRect(0, 0, 640, 479);
+
+	ctx.save();
+	ctx.translate(0, 10)
+	ctx.beginPath();
+	ctx.moveTo(0, 0);
+	ctx.lineTo(640, 0);
+	ctx.stroke();
+	ctx.restore();
+
+	ctx.save();
+	ctx.translate(640/2, 15);
+	ctx.beginPath();
+	ctx.rect(-10, 0, 20, 5);
+	ctx.arc(-5, 0, 5, Math.PI, 0, false);
+	ctx.arc( 5, 0, 5, Math.PI, 0, false);
+	ctx.stroke();
+	ctx.restore();
     };
     CanvasView.prototype.container = function(){
 	if (!this._container) {
