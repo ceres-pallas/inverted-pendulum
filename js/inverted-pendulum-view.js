@@ -31,37 +31,10 @@
 	    'length': 100,
 	    'position': -50
 	}
-	ctx.strokeRect(0, 0, options.width, options.height);
-
-
-	ctx.save();
-	ctx.translate(0, options.horizon);
-	ctx.beginPath();
-	ctx.moveTo(0, 0);
-	ctx.lineTo(options.width, 0);
-	ctx.stroke();
-	ctx.restore();
-
-	ctx.save();
-	ctx.translate(options.width/2, options.horizon + options.wheel);
-	ctx.translate(options.position, 0);
-	ctx.beginPath();
-	ctx.rect(-2 * options.wheel, 0, 4 * options.wheel, options.wheel);
-	ctx.arc(-options.wheel, 0, options.wheel, Math.PI, 0, false);
-	ctx.arc( options.wheel, 0, options.wheel, Math.PI, 0, false);
-	ctx.stroke();
-	ctx.restore();
-
-	ctx.save();
-	ctx.translate(options.width/2, options.horizon + 2 * options.wheel);
-	ctx.translate(options.position, 0);
-	ctx.beginPath();
-	ctx.moveTo(-options.thickness, 0);
-	ctx.lineTo(options.length * Math.sin(Math.PI/3) - options.thickness, options.length * Math.cos(Math.PI/3));
-	ctx.lineTo(options.length * Math.sin(Math.PI/3) + options.thickness, options.length * Math.cos(Math.PI/3));
-	ctx.lineTo(options.thickness, 0);
-	ctx.stroke();
-	ctx.restore();
+	this.drawBorder(ctx,options);
+	this.drawHorizon(ctx, options);
+	this.drawCart(ctx, options);
+	this.drawPendulum(ctx, options);
     };
     CanvasView.prototype.container = function(){
 	if (!this._container) {
@@ -79,5 +52,40 @@
 	    c.scale(1, -1);
 	}
 	return this._context;
+    }
+    CanvasView.prototype.drawBorder = function(ctx, options){
+	ctx.strokeRect(0, 0, options.width, options.height);
+    }
+    CanvasView.prototype.drawHorizon = function(ctx, options){
+	ctx.save();
+	ctx.translate(0, options.horizon);
+	ctx.beginPath();
+	ctx.moveTo(0, 0);
+	ctx.lineTo(options.width, 0);
+	ctx.stroke();
+	ctx.restore();
+    }
+    CanvasView.prototype.drawCart = function(ctx, options){
+	ctx.save();
+	ctx.translate(options.width/2, options.horizon + options.wheel);
+	ctx.translate(options.position, 0);
+	ctx.beginPath();
+	ctx.rect(-2 * options.wheel, 0, 4 * options.wheel, options.wheel);
+	ctx.arc(-options.wheel, 0, options.wheel, Math.PI, 0, false);
+	ctx.arc( options.wheel, 0, options.wheel, Math.PI, 0, false);
+	ctx.stroke();
+	ctx.restore();
+    }
+    CanvasView.prototype.drawPendulum = function(ctx, options){
+	ctx.save();
+	ctx.translate(options.width/2, options.horizon + 2 * options.wheel);
+	ctx.translate(options.position, 0);
+	ctx.beginPath();
+	ctx.moveTo(-options.thickness, 0);
+	ctx.lineTo(options.length * Math.sin(Math.PI/3) - options.thickness, options.length * Math.cos(Math.PI/3));
+	ctx.lineTo(options.length * Math.sin(Math.PI/3) + options.thickness, options.length * Math.cos(Math.PI/3));
+	ctx.lineTo(options.thickness, 0);
+	ctx.stroke();
+	ctx.restore();
     }
 })(window || module.exports);
