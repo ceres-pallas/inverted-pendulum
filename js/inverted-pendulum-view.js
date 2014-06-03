@@ -22,6 +22,8 @@
     }
     CanvasView.prototype.update = function(){
 	var canvas = this.container();
+	var ctx = canvas.getContext('2d');
+	ctx.strokeRect(0, 0, 640, 480);
     };
     CanvasView.prototype.container = function(){
 	if (!this._container) {
