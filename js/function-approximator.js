@@ -23,7 +23,7 @@
 	this.setWeight(this.getWeight() + correction);
     }
 
-    var FunctionApproximator = $.FunctionApproximator = function(weightInitialisationStrategyFunction, learningRate) {
+    var FunctionApproximator = $.FunctionApproximator = function(weightInitialisationStrategyFunction, learningRate, explorationRate, randomPickerFunction) {
 	this.valueFunctions = new Array();
 
 	this.weightInitialisationStrategyFunction = weightInitialisationStrategyFunction || function() {
@@ -33,6 +33,14 @@
 	this.learningRate = learningRate || 0.1;
 
 	this.states = [];
+
+	this.explorationRate = explorationRate || 0;
+
+	this.randomPickerFunction = randomPickerFunction || function(elements) { return elements[0]; }
+    }
+
+    FunctionApproximator.prototype.getExplorationRate = function(){
+	return this.explorationRate;
     }
     
     FunctionApproximator.prototype.getValueFunctions = function(){
@@ -72,5 +80,27 @@
 	   vf.correct(state, actual, _context.getLearningRate());
 	});
     }
+
+    FunctionApproximator.prototype.evaluate = function(states) {
+	var _context = this;
+	var high;
+	var bestState;
+
+	if(Math.random() <= _context.getExplorationRate()) {
+	    return _context.randomPickerFunction(states);
+	} 
+
+	states.forEach(function(state) {
+	    var value = _context.getValue(state.state);
+	    if(high == undefined || value > high) {
+		high = value;
+		bestState = state;
+	    }
+	});
+
+	return bestState;
+    }
+
+
 
 })(window || module.exports)

@@ -121,11 +121,6 @@ describe('Function Approximator', function() {
 	    expect(fa.getLearningRate()).toBe(0.2);
 	});
 	
-	it('should keep a history of states', function() {
-	    var fa = new FunctionApproximator();
-	    
-	});
-
 	it('should correct the weights of all value functions', function() {
 	    var fa = new FunctionApproximator(function() { return 1;}, 0.1);
 	    fa.addValueFunction(
@@ -145,7 +140,44 @@ describe('Function Approximator', function() {
 
 	});
 
-	
+	it('should be able to choose between states on the basis of their utility', function() {
+	    var fa = new FunctionApproximator();
+	    fa.addValueFunction(
+		fa.createValueFunction(function(s) { return s.x; } )
+	    );
+	    fa.addValueFunction(
+		fa.createValueFunction(function(s) { return s.y; } )
+	    );
+
+	    var states = [];
+	    states.push({state: {x: 0, y: 0}, action: "stay"});
+	    states.push({state: {x: 1, y: 1}, action: "diagonal"});
+	    states.push({state: {x: 0, y: 1}, action: "up"});
+	    
+	    var chosen = fa.evaluate(states);
+	    expect(fa.evaluate(states).action).toBe("diagonal");
+	    states.push({state: {x: 0, y: 8}, action: "FTW"});
+	    
+	    expect(fa.evaluate(states).action).toBe("FTW"); 
+	});
+
+	it('should explore if the explorationrate is 100% and not explore if it is 0%', function() {
+	    var states = [];
+	    states.push({state: {x: 0}, action: "explored"});
+	    states.push({state: {x: 1}, action: "highest"});
+	 
+	    var explorerfa = new FunctionApproximator(null,null,1,null);
+	    explorerfa.addValueFunction(
+		explorerfa.createValueFunction(function(s) { return s.x; } )
+	    );	    
+	    expect(explorerfa.evaluate(states).action).toBe("explored");
+	    
+	    var nonexplorerfa = new FunctionApproximator(null,null,0,null);
+	    nonexplorerfa.addValueFunction(
+		nonexplorerfa.createValueFunction(function(s) { return s.x; } )
+	    );	    
+	    expect(nonexplorerfa.evaluate(states).action).toBe("highest");
+	});
 
     });
 });
