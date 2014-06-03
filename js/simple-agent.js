@@ -1,15 +1,27 @@
 (function($) {
-    var SimpleAgent = $.SimpleAgent = function(problem, solver) {
+    var SimpleAgent = $.SimpleAgent = function(problem, solver) {	
 	this.problem = problem;
 	this.solver = solver;
+	this.ticked = 0;
+	this.history = [];
     }
     
     SimpleAgent.prototype.getPossibleActions = function() {
 	return this.problem.getPossibleActions();
     }
 
-    SimpleAgent.prototype.chooseAction = function(states) {
-	return states[0];
+    SimpleAgent.prototype.chooseAction = function() {
+	return this.solver.evaluate(this.getPossibleActions());
+    }
+
+    SimpleAgent.prototype.getTicked = function() {
+	return this.ticked;
+    }
+
+    SimpleAgent.prototype.performAction = function(action) {
+	this.history.push({state: this.problem.currentState(), action: action});
+	this.problem.tick(action);
+	this.ticked++;
     }
 
 })(window || module.exports)
