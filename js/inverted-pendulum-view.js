@@ -34,4 +34,12 @@
 	}
 	return this._container;
     }
+    CanvasView.prototype.context = function(){
+	if (!this._context) {
+	    var c = this._context = this.container().getContext('2d');
+	    c.translate(0, 480);
+	    c.scale(1, -1);
+	}
+	return this._context;
+    }
 })(window || module.exports);
