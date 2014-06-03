@@ -40,6 +40,16 @@
 	ctx.arc( 5, 0, 5, Math.PI, 0, false);
 	ctx.stroke();
 	ctx.restore();
+
+	ctx.save();
+	ctx.translate(640/2, 20);
+	ctx.beginPath();
+	ctx.moveTo(-2, 0);
+	ctx.lineTo(100 * Math.sin(Math.PI/3)-2, 100 * Math.cos(Math.PI/3));
+	ctx.lineTo(100 * Math.sin(Math.PI/3)+2, 100 * Math.cos(Math.PI/3));
+	ctx.lineTo(2, 0);
+	ctx.stroke();
+	ctx.restore();
     };
     CanvasView.prototype.container = function(){
 	if (!this._container) {
