@@ -1,4 +1,4 @@
-(function($){
+(function($, Helper){
     var View = $.InvertedPendulumView = function(parent, problem){
 	this.parent = parent;
 	this.problem = problem;
@@ -22,15 +22,18 @@
     }
     CanvasView.prototype.update = function(){
 	var ctx = this.context();
-	var options = {
+	var options = Helper.extend({
 	    'width': 640,
 	    'height' : 480,
 	    'horizon': 10,
 	    'wheel': 5,
 	    'thickness': 2,
 	    'length': 100,
-	    'position': -50
-	}
+	}).by({
+	    'position': -50,
+	    'angle': Math.PI/3
+	});
+
 	this.drawBorder(ctx,options);
 	this.drawHorizon(ctx, options);
 	this.drawCart(ctx, options);
@@ -82,10 +85,10 @@
 	ctx.translate(options.position, 0);
 	ctx.beginPath();
 	ctx.moveTo(-options.thickness, 0);
-	ctx.lineTo(options.length * Math.sin(Math.PI/3) - options.thickness, options.length * Math.cos(Math.PI/3));
-	ctx.lineTo(options.length * Math.sin(Math.PI/3) + options.thickness, options.length * Math.cos(Math.PI/3));
+	ctx.lineTo(options.length * Math.sin(options.angle) - options.thickness, options.length * Math.cos(options.angle));
+	ctx.lineTo(options.length * Math.sin(options.angle) + options.thickness, options.length * Math.cos(options.angle));
 	ctx.lineTo(options.thickness, 0);
 	ctx.stroke();
 	ctx.restore();
     }
-})(window || module.exports);
+})(window || module.exports, Helper);

@@ -9,9 +9,9 @@
         l : 1
     };
     var World = $.World = function(worldParameters){
-        worldParameters = copy(worldParameters || defaultWorldParameters);
-        for (var key in defaultWorldParameters) {
-            this[key] = worldParameters[key] || defaultWorldParameters[key];
+        worldParameters = Helper.extend(worldParameters || {}).by(defaultWorldParameters);
+        for (var key in worldParameters) {
+            this[key] = worldParameters[key];
         }
     };
     World.prototype.createInvertedPendulum = function(state){
@@ -28,12 +28,7 @@
     var InvertedPendulum = function(world, state){
 	Observable.call(this);
         this.world = world;
-        this._currentState = copy(state || defaultState);
-        for (var key in defaultState) {
-            if (!this._currentState[key]) {
-                this._currentState[key] = defaultState[key];
-            }
-        }
+        this._currentState = Helper.extend(state || {}).by(defaultState);
     };
     InvertedPendulum.prototype = new Observable();
     InvertedPendulum.prototype.currentState = function(){
