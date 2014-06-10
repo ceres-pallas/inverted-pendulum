@@ -1,5 +1,5 @@
 (function(World, View){
-    var world = new World();
+    var world = new World({ g: 1/16, M: 1/4 });
 
     var problem = world.createInvertedPendulum({ angle: Math.PI/50 });
 
