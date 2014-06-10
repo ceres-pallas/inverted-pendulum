@@ -7,6 +7,20 @@
 
     var controller = new Controller();
 
+    var body = document.getElementsByTagName('body')[0]
+    body.addEventListener('keydown', function(e){
+	switch(e.keyCode) {
+	case 37:
+	    controller.left();
+	    break;
+	case 39:
+	    controller.right();
+	    break;
+	default:
+	    break; /* do nothing */
+	}
+    }, true);
+
     function run(){
 	problem.tick(controller.action());
 	requestAnimationFrame(run);
