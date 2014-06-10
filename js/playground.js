@@ -9,21 +9,21 @@
 
     var body = document.getElementsByTagName('body')[0]
     body.addEventListener('keydown', function(e){
-	switch(e.keyCode) {
-	case 37:
-	    controller.left();
-	    break;
-	case 39:
-	    controller.right();
-	    break;
-	default:
-	    break; /* do nothing */
-	}
+        switch(e.keyCode) {
+        case 37:
+            controller.left();
+            break;
+        case 39:
+            controller.right();
+            break;
+        default:
+            break; /* do nothing */
+        }
     }, true);
 
     function run(){
-	problem.tick(controller.action());
-	requestAnimationFrame(run);
+        problem.tick(controller.action());
+        requestAnimationFrame(run);
     };
     run();
 })(World, InvertedPendulumView, Controller);
