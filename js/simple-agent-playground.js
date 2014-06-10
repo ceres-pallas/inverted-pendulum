@@ -10,9 +10,18 @@
     var agent = new SimpleAgent(problem, functionApproximator);
 
     function run(){
+	if(!problem.currentState().ended) {
+	    problem.tick();
+	    requestAnimationFrame(run);
+	} else {
+	    console.log("reset");
+	    problem = world.createInvertedPendulum({ angle: Math.PI/50 });
+	   // new View(document.getElementById('playground'), problem);
+
+	    requestAnimationFrame(run);
+	    
+	}
 	
-	problem.tick();
-	requestAnimationFrame(run);
     };
     run();
 })(World, InvertedPendulumView, FunctionApproximator, SimpleAgent);
