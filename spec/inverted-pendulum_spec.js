@@ -66,6 +66,15 @@ describe('Inverted Pendulum', function(){
             expect(s.velocity).toBeCloseTo(0, 0.01);
             expect(s.angularVelocity).toBeCloseTo(0, 0.01);
         });
+
+	it('should set the argument of the currentState function as the new current state', function() {
+	    var start = { position: 1 };
+            var problem = world.createInvertedPendulum(start);
+	    expect(problem.currentState().position).toBe(1);
+            var s = problem.currentState({ position: 2 });
+	    expect(s.position).toBe(2);
+	    expect(problem.currentState().position).toBe(2);
+	});
     });
 
     describe('tick', function(){
@@ -284,6 +293,7 @@ describe('Inverted Pendulum', function(){
                 expect(s.angle).toBeCloseTo(s.angle, 0.01);
                 expect(s.angularVelocity).toBeCloseTo(Math.sin(startAngle), 0.01);
             })
+	    
         });
     });
 });
