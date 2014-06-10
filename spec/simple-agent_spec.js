@@ -112,17 +112,17 @@ describe('Simple Agent', function() {
     })
 
     it('should keep a history of all its transitioned states', function() {
-	 var problemMock = {
-	     i: 0
-	 };
-	     problemMock.tick = function() {
-		 this.i++;
-	     }
-	     problemMock.currentState = function() {
-		 return {x: this.i}; 
-	     }
+	var problemMock = {
+	    i: 0
+	};
+	problemMock.tick = function() {
+	    this.i++;
+	}
+	problemMock.currentState = function() {
+	    return {x: this.i}; 
+	}
 	
-
+	
 	var sa = new SimpleAgent(problemMock);
 	 
 	sa.performAction("right");
