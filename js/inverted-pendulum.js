@@ -6,7 +6,8 @@
         M : 1,
         m : 1,
         g : 1,
-        l : 1
+        l : 1,
+        L : 1/8
     };
     var World = $.World = function(worldParameters){
         worldParameters = Helper.extend(worldParameters || {}).by(defaultWorldParameters);
@@ -43,7 +44,7 @@
         state.velocity += acceleration * this.world.delta;
         state.position += state.velocity * this.world.delta;
 
-        var angularAcceleration = 0;
+        var angularAcceleration = -force * this.world.L;
         angularAcceleration += this.world.m * this.world.g * Math.sin(state.angle)/ this.world.l;
         state.angularVelocity += angularAcceleration * this.world.delta;
         state.angle += state.angularVelocity * this.world.delta;
@@ -53,7 +54,7 @@
             state.angularVelocity = 0;
         }
         if (state.angle <= -Math.PI/2) {
-            state.angle = Math.PI/2;
+            state.angle = -Math.PI/2;
             state.angularVelocity = 0;
         }
         this._currentState = state;
