@@ -89,7 +89,7 @@
 	if(Math.random() <= _context.getExplorationRate()) {
 	    return _context.randomPickerFunction(states);
 	} 
-
+	
 	states.forEach(function(state) {
 	    var value = _context.getValue(state.state);
 	    if(high == undefined || value > high) {
@@ -97,7 +97,6 @@
 		bestState = state;
 	    }
 	});
-
 	return bestState;
     }
 
