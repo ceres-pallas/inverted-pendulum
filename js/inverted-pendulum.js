@@ -32,7 +32,7 @@
     };
     InvertedPendulum.prototype = new Observable();
     InvertedPendulum.prototype.currentState = function(state){
-	this._currentState = state || this._currentState;
+	this._currentState = state?Helper.extend(state || {}).by(defaultState):this._currentState;
 	
         return copy(this._currentState);
     }
@@ -63,4 +63,27 @@
         this._currentState = state;
 	this.notify(this.currentState());
     }
+
+    InvertedPendulum.prototype.getPossibleActions = function() {
+	var current = this.currentState();
+
+	this.tick(-1);
+	var leftState = this.currentState();
+	this.currentState(current);
+	
+	this.tick(0);
+	var neutralState = this.currentState(); 
+	this.currentState(current);
+	
+	this.tick(1);
+	var rightState = this.currentState();
+
+	this.currentState(current);
+
+	return [{state: leftState, action: -1},
+		{state: neutralState, action:  0},
+		{state: rightState, action:  1}];
+
+}
+    
 })(window || module.exports, Helper, Observable);
