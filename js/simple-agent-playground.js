@@ -10,12 +10,13 @@
 	function(){return Math.random();},
 	0.1, 
 	0.1, 
-	function(elements) { return elements[Math.floor((Math.random() * elements.length))]; }
+	function(elements) {console.log( elements[Math.floor((Math.random() * elements.length))]); return elements[Math.floor((Math.random() * elements.length))]; }
     );
 
     functionApproximator.addValueFunction(
 	functionApproximator.createValueFunction(function(s) { 
-	    return s.angle; })
+	    return s.angle; 
+	})
     );
 
     functionApproximator.addValueFunction(
@@ -23,15 +24,24 @@
 	    return s.angularVelocity; })
     );
 
+    functionApproximator.addValueFunction(
+	functionApproximator.createValueFunction(function(s) { 
+	    return s.position; })
+    );
 
     var agent = new SimpleAgent(problem, functionApproximator);
     var count = 0;
     function run(){
-	
+	count++;
 	if(!problem.currentState().ended) {
-	    var option = agent.chooseAction();
+	    if(count%20 == 0) {
+		var option = agent.chooseAction();
 	    
-	    agent.performAction(option.action);
+		agent.performAction(option.action);
+	    } else {
+		problem.tick();
+	    }
+	    count++;
 	} else {
 
 	    agent.reevaluateActions();

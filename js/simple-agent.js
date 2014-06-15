@@ -20,17 +20,18 @@
 
     SimpleAgent.prototype.performAction = function(action) {
 	this.history.push({state: this.problem.currentState(), action: action});
+
 	this.problem.tick(action);
 	this.ticked++;
     }
 
     SimpleAgent.prototype.reevaluateActions = function() {
-	var total = this.history.length;
+	var count = 0;
 
 	while(this.history.length > 0) {
 	    
-	    this.solver.correct(this.history.pop().state, total - this.history.length); 
-	    this.ticked--;
+	    this.solver.correct(this.history.pop().state, count++); 
+	    
 	}
     }
 
