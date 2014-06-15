@@ -109,7 +109,7 @@ describe('Simple Agent', function() {
 	expect(problemMock.i).toBe(2); 
  	expect(problemMock.currentState()).toEqual({x: 2}); 
   	
-    })
+    });
 
     it('should keep a history of all its transitioned states', function() {
 	var problemMock = {
@@ -131,6 +131,39 @@ describe('Simple Agent', function() {
 	
 	expect(sa.history.length).toBe(3);
 	expect(sa.history).toEqual( [{state: {x:0}, action: "right"}, {state: {x:1}, action: "root"}, {state: {x:2}, action: "right"}]);
-    })
+    });
+
+    it('should reeavaluate all weights for each of its chosen actions', function() {
+	var problemMock = {
+	    i: 0
+	};
+	problemMock.tick = function() {
+	    this.i++;
+	}
+	problemMock.currentState = function() {
+	    return {x: this.i}; 
+	}
+	
+	var counter = 0;
+	var solverMock = {};
+	solverMock.evaluate = function(states) {
+	    counter++;
+	}
+	var a = new SimpleAgent(problemMock, solverMock);	
+	
+	a.performAction("right");
+	a.performAction("root");
+	a.performAction("right");
+	
+
+	a.reevaluateActions();
+	expect(counter).toBe(3);
+	a.performAction("right");
+	a.performAction("root");
+	a.performAction("right");
+	
+	a.reevaluateActions();
+	expect(counter).toBe(6)
+    });
 
 });

@@ -66,6 +66,15 @@ describe('Inverted Pendulum', function(){
             expect(s.velocity).toBeCloseTo(0, 0.01);
             expect(s.angularVelocity).toBeCloseTo(0, 0.01);
         });
+
+	it('should set the argument of the currentState function as the new current state', function() {
+	    var start = { position: 1 };
+            var problem = world.createInvertedPendulum(start);
+	    expect(problem.currentState().position).toBe(1);
+            var s = problem.currentState({ position: 2 });
+	    expect(s.position).toBe(2);
+	    expect(problem.currentState().position).toBe(2);
+	});
     });
 
     describe('tick', function(){
@@ -120,18 +129,31 @@ describe('Inverted Pendulum', function(){
                 expect(s.angularVelocity).toBeCloseTo(0, 0.01);
             });
 
-            it('should calculate linear displacement', function(){
-                var problem = world.createInvertedPendulum({
-                    position: 0, velocity: 1, angle: startAngle, angularVelocity: 0
+	    it('should put problem in an endstate when stationary state', function(){
+		var problem = world.createInvertedPendulum({
+                    position: 0, velocity: 0, angle: startAngle, angularVelocity: 0
                 });
 
                 problem.tick();
 
                 var s = problem.currentState();
-                expect(s.position).toBeCloseTo(1, 0.01);
+                expect(s.position).toBeCloseTo(0, 0.01);
                 expect(s.angle).toBeCloseTo(startAngle, 0.01);
-                expect(s.velocity).toBeCloseTo(1, 0.01);
+                expect(s.velocity).toBeCloseTo(0, 0.01);
                 expect(s.angularVelocity).toBeCloseTo(0, 0.01);
+            	
+		
+	    })
+
+            it('should calculate linear displacement', function(){
+                var problem = world.createInvertedPendulum({
+                    position: 0, velocity: 1, angle: startAngle, angularVelocity: 0
+                });
+
+                expect(problem.currentState().ended).toBeFalsy();
+		problem.tick();
+		expect(problem.currentState().ended).toBeTruthy();
+                
             });
 
             it('should constant acceleration correctly', function(){
@@ -271,6 +293,7 @@ describe('Inverted Pendulum', function(){
                 expect(s.angle).toBeCloseTo(s.angle, 0.01);
                 expect(s.angularVelocity).toBeCloseTo(Math.sin(startAngle), 0.01);
             })
+	    
         });
     });
 });

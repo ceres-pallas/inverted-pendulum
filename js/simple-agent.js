@@ -24,4 +24,12 @@
 	this.ticked++;
     }
 
+    SimpleAgent.prototype.reevaluateActions = function() {
+	while(this.history.length > 0) {
+
+	    this.solver.correct(this.history.pop(), this.ticked); 
+	    this.ticked--;
+	}
+    }
+
 })(window || module.exports)
