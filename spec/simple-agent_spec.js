@@ -146,7 +146,8 @@ describe('Simple Agent', function() {
 	
 	var counter = 0;
 	var solverMock = {};
-	solverMock.evaluate = function(states) {
+
+	solverMock.correct = function() {
 	    counter++;
 	}
 	var a = new SimpleAgent(problemMock, solverMock);	
