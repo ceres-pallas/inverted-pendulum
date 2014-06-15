@@ -25,9 +25,11 @@
     }
 
     SimpleAgent.prototype.reevaluateActions = function() {
-	while(this.history.length > 0) {
+	var total = this.history.length;
 
-	    this.solver.correct(this.history.pop(), this.ticked); 
+	while(this.history.length > 0) {
+	    
+	    this.solver.correct(this.history.pop().state, total - this.history.length); 
 	    this.ticked--;
 	}
     }

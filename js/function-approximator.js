@@ -5,6 +5,7 @@
     }
 
     ValueFunction.prototype.getValue = function(state) {
+
 	return this.getWeight() * this.valueFunction(state);
     }
 
@@ -75,9 +76,9 @@
 
     FunctionApproximator.prototype.correct = function(state, actual) {
 	var _context = this;
-
 	_context.getValueFunctions().forEach(function(vf) {
 	   vf.correct(state, actual, _context.getLearningRate());
+
 	});
     }
 
