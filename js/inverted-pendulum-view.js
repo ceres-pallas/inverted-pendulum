@@ -38,8 +38,12 @@
         var options = Helper.extend(this.options).by(this.problem.currentState());
         this.drawBorder(ctx,options);
         this.drawHorizon(ctx, options);
-        this.drawCart(ctx, options);
-        this.drawPendulum(ctx, options);
+	[-1, 0, 1].forEach(function(multiplier){
+	    var shadow = Helper.copy(options);
+	    shadow.position += multiplier * shadow.width;
+            this.drawCart(ctx, shadow);
+            this.drawPendulum(ctx, shadow);
+	}.bind(this));
     };
     CanvasView.prototype.container = function(){
         if (!this._container) {
