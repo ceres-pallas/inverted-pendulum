@@ -1,7 +1,8 @@
 (function(World, View, FunctionApproximator, SimpleAgent){
     var world = new World({ g: 1/16, M: 1/4 });
 
-    var problem = world.createInvertedPendulum({ angle: Math.PI/50 });
+    var initialState = { angle: Math.PI/50 };
+    var problem = world.createInvertedPendulum(initialState);
 
     new View(document.getElementById('playground'), problem);
 
@@ -11,17 +12,15 @@
 
     function run(){
 	if(!problem.currentState().ended) {
-	    problem.tick();
-	    requestAnimationFrame(run);
-	} else {
-	    console.log("reset");
-	    problem = world.createInvertedPendulum({ angle: Math.PI/50 });
-	   // new View(document.getElementById('playground'), problem);
-
-	    requestAnimationFrame(run);
+	    var option = agent.chooseAction();
 	    
+	    agent.performAction(option.action);
+	} else {
+	    agent.reevaluateActions();
+	    problem.currentState(initialState);
+
 	}
-	
+	requestAnimationFrame(run);
     };
     run();
 })(World, InvertedPendulumView, FunctionApproximator, SimpleAgent);
