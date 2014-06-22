@@ -55,8 +55,9 @@ describe('Function Approximator', function() {
 	    it('should lower its weight with a given learningRate', function() {
 		var vf = new ValueFunction(function(s) { return s.x; }, function(){ return 0.5; });
 		var state = {x: 8};
-		expect(vf.getValue(state)).toBe(4);
-		vf.correct(4, 2, 0.1);
+		var value = vf.getValue(state);
+		expect(value).toBe(4);
+		vf.correct(value, 2, 0.1);
 		// diff of 2 * learningRate == -0.2
 		expect(vf.getWeight()).toBe(0.3)
 	    });
