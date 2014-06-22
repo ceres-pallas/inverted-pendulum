@@ -56,7 +56,7 @@ describe('Function Approximator', function() {
 		var vf = new ValueFunction(function(s) { return s.x; }, function(){ return 0.5; });
 		var state = {x: 8};
 		expect(vf.getValue(state)).toBe(4);
-		vf.correct(state, 2, 0.1);
+		vf.correct(4, 2, 0.1);
 		// diff of 2 * learningRate == -0.2
 		expect(vf.getWeight()).toBe(0.3)
 	    });
@@ -90,7 +90,7 @@ describe('Function Approximator', function() {
 		return 2;
 	    }));
 
-	    expect(fa.getValue()).toBe(1.5);
+	    expect(fa.getValue()).toBe(3);
 	});
 
 	it('should initialise the weights of its valuefunctions with a strategy', function() {
@@ -100,7 +100,7 @@ describe('Function Approximator', function() {
 
 	});
 
-	it('should calculate the value of a state as an average of cumulated value of all its weighted valuefunctions', function() {
+	it('should calculate the value of a state as the sum of the value of all its weighted valuefunctions', function() {
 	    var fa = new FunctionApproximator(function() { return 0.5; });
 	    fa.addValueFunction(
 		fa.createValueFunction(function(s) {
@@ -111,7 +111,7 @@ describe('Function Approximator', function() {
 		return 2;
 	    }));
 
-	    expect(fa.getValue()).toBe(0.75);
+	    expect(fa.getValue()).toBe(1.5);
 	});
 	
 	it('should be initialized with a learning rate', function() {
@@ -124,15 +124,19 @@ describe('Function Approximator', function() {
 	it('should correct the weights of all value functions', function() {
 	    var fa = new FunctionApproximator(function() { return 1;}, 0.1);
 	    fa.addValueFunction(
-		fa.createValueFunction(function(s) { return s.x; } )
+		fa.createValueFunction(function(s) { return s.x; }, function() { return 0.5; } )
 	    );
 	    fa.addValueFunction(
-		fa.createValueFunction(function(s) { return -s.x; } )
+		fa.createValueFunction(function(s) { return s.y; }, function() { return 0.2; }  )
+	    );
+	    fa.addValueFunction(
+		fa.createValueFunction(function(s) { return 1; }, function() { return 0.1; }  )
 	    );
 
-	    var state = { x: 8 };
-	    
-	    fa.correct(state, 4);
+
+	    var state = { x: 1, y: 1 };
+	    expect(fa.getValue({x:1,y:1})).toBeCloseTo(0.8);
+	    fa.correct(state, 0.4);
 	    
 	    expect(fa.getValueFunctions()[0].getWeight()).toBe(0.6);
 	    
@@ -177,6 +181,162 @@ describe('Function Approximator', function() {
 		nonexplorerfa.createValueFunction(function(s) { return s.x; } )
 	    );	    
 	    expect(nonexplorerfa.evaluate(states).action).toBe("highest");
+	});
+	
+	it('should handle some scenarios in a particular way', function() {
+	    var mazeProblem = function() {
+		this.x = 0;
+		this.y = 0;
+
+		this.currentState = function() {
+		    var ended = false, reward = 0;
+		    if(this.x==3 && this.y==2) {
+			ended = true;
+			reward = 1;
+		    }
+		    if(this.x==3 && this.y==1) {
+			ended = true;
+			reward = -1;
+		    }
+		    
+
+		    return {
+			x: this.x,
+			y: this.y,
+			ended: ended,
+			reward: reward
+		    }
+		}
+
+		this.getPossibleActions = function() {
+		    if(this.x==0 && this.y==0) {
+			return [
+			    { state: { x: 0, y: 1 }, action: "up"},
+			    { state: { x: 1, y: 0 }, action: "right" },
+			];
+		    }
+		    if(this.x==1 && this.y==0) {
+			return [
+			    { state: { x: 0, y: 0 }, action: "left"},
+			    { state: { x: 2, y: 0 }, action: "right" },
+			];
+		    }
+		    if(this.x==0 && this.y==1) {
+			return [
+			    { state: { x: 0, y: 2 }, action: "up"},
+			    { state: { x: 0, y: 0 }, action: "down" },
+			];
+		    }
+		    if(this.x==0 && this.y==2) {
+			return [
+			    { state: { x: 1, y: 2 }, action: "right"},
+			    { state: { x: 0, y: 1 }, action: "down" },
+			];
+		    }
+		    if(this.x==1 && this.y==2) {
+			return [
+			    { state: { x: 0, y: 2 }, action: "left"},
+			    { state: { x: 2, y: 2 }, action: "right" },
+			];
+		    }
+		    if(this.x==2 && this.y==2) {
+			return [
+			    { state: { x: 1, y: 2 }, action: "left"},
+			    { state: { x: 3, y: 2 }, action: "right" },
+			    { state: { x: 2, y: 1 }, action: "down" },
+			];
+		    }
+		    if(this.x==2 && this.y==1) {
+			return [
+			    { state: { x: 2, y: 2 }, action: "up"},
+			    { state: { x: 2, y: 0 }, action: "down" },
+			    { state: { x: 3, y: 1 }, action: "right" },
+			];
+		    }
+		    if(this.x==2 && this.y==0) {
+			return [
+			    { state: { x: 2, y: 1 }, action: "up"},
+			    { state: { x: 1, y: 0 }, action: "left" },
+			    { state: { x: 3, y: 0 }, action: "right" },
+			];
+		    }
+		    if(this.x==3 && this.y==0) {
+			return [
+			    { state: { x: 3, y: 1 }, action: "up"},
+			    { state: { x: 2, y: 0 }, action: "left" },
+			];
+		    }
+		    if(this.x==3 && this.y==2) {
+			return [
+			    { state: { x: 3, y: 1 }, action: "end"}
+			];
+		    }
+		    if(this.x==3 && this.y==2) {
+			return [
+			    { state: { x: 3, y: 2 }, action: "end"}
+			];
+		    }
+		}
+		
+		this.tick = function(action) {
+		    if(action == "up") {
+			this.y++;
+		    }
+
+		    if(action == "right") {
+			this.x++;
+		    }
+
+		    if(action == "down") {
+			this.y--;
+		    }
+
+		    if(action == "left") {
+			this.x--;
+		    }
+		}
+	    }; 
+
+	    
+	    var m = new mazeProblem();
+
+	    var fa = new FunctionApproximator();
+	    fa.addValueFunction(
+		fa.createValueFunction(function(s) { return s.x; }, function(){ return 0.5;} )
+	    );
+	    fa.addValueFunction(
+		fa.createValueFunction(function(s) { return s.y; }, function(){return 0.2;} )
+	    );
+	    fa.addValueFunction(
+		fa.createValueFunction(function(s) { return 1; }, function(){return 0.1;} )
+	    );
+	    var agent = new SimpleAgent(m, fa);
+/*
+	    for(var i=0; i<10; i++) {
+		agent.performAction(agent.chooseAction().action);
+		agent.performAction(agent.chooseAction().action);
+		agent.performAction(agent.chooseAction().action);
+		agent.performAction(agent.chooseAction().action);
+
+		console.log(m.currentState());
+
+		agent.reevaluateActions(1, 0.04);
+		m.x = 0;
+		m.y = 0;
+		m.ended = false;
+		m.reward = 0;
+	    } */
+
+	    fa.getValueFunctions().forEach(function(vf) {
+		console.log(vf.getWeight());
+	    });
+	    console.log(fa.getValue({x:1,y:1}));
+	    fa.correct({x: 1, y: 1}, 0.4);
+	    
+	    fa.getValueFunctions().forEach(function(vf) {
+		console.log(vf.getWeight());
+	    });	    
+	    console.log(fa.getValue({x:1,y:1}));
 	});
 
     });
