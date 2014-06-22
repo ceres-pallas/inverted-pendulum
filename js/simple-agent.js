@@ -25,13 +25,14 @@
 	this.ticked++;
     }
 
-    SimpleAgent.prototype.reevaluateActions = function() {
+    SimpleAgent.prototype.reevaluateActions = function(reward, costPerTransition) {
 	var count = 0;
 
 	while(this.history.length > 0) {
-	    
-	    this.solver.correct(this.history.pop().state, count++); 
-	    
+	    var state = this.history.pop().state
+	    this.solver.correct(state, reward || count++); 
+	    if(reward)
+		reward-=costPerTransition;
 	}
     }
 
