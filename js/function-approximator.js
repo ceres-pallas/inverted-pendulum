@@ -18,10 +18,13 @@
     }
 
     ValueFunction.prototype.correct = function(estimate, actual, learningRate) {
+	
 	var correction = (Math.abs(estimate-actual))*learningRate;
 	if(actual < estimate) {
 	    correction*=-1;
 	}
+
+	//console.log(estimate, actual, correction, learningRate);
 	this.setWeight(this.getWeight() + correction);
 	
     }

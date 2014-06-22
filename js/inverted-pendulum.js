@@ -79,8 +79,10 @@
     }
     InvertedPendulum.prototype.getPossibleActions = function() {
         var current = this.currentState();
+	var leftForce = -0.5;
+	var rightForce = 0.5;
 
-        this.tick(-1);
+        this.tick(leftForce);
         var leftState = this.currentState();
         this.currentState(current);
 
@@ -88,15 +90,15 @@
         var neutralState = this.currentState();
         this.currentState(current);
 
-        this.tick(1);
+        this.tick(rightForce);
         var rightState = this.currentState();
 
         this.currentState(current);
 
         return [
                 {state: neutralState, action:  0},
-		{state: leftState, action: -1},
-                {state: rightState, action:  1}
+		{state: leftState, action: leftForce},
+                {state: rightState, action:  rightForce}
 	];
 
 }

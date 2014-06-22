@@ -123,7 +123,7 @@ describe('Function Approximator', function() {
 	    expect(fa.getLearningRate()).toBe(0.2);
 	});
 	
-	it('should correct the weights of all value functions', function() {
+	it('should heighten the weights of all value functions', function() {
 	    var fa = new FunctionApproximator(function() { return 1;}, 0.1);
 	    fa.addValueFunction(
 		fa.createValueFunction(function(s) { return s.x; }, function() { return 0.5; } )
@@ -140,9 +140,9 @@ describe('Function Approximator', function() {
 	    expect(fa.getValue({x:1,y:1})).toBeCloseTo(0.8);
 	    fa.correct(state, 0.4);
 	    
-	    expect(fa.getValueFunctions()[0].getWeight()).toBe(0.6);
-	    
-	    expect(fa.getValueFunctions()[1].getWeight()).toBe(2.2);
+	    expect(fa.getValueFunctions()[0].getWeight()).toBeCloseTo(0.46);
+	    expect(fa.getValueFunctions()[1].getWeight()).toBeCloseTo(0.16);
+	    expect(fa.getValueFunctions()[2].getWeight()).toBeCloseTo(0.06);
 
 	});
 

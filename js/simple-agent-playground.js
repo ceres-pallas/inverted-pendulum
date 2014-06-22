@@ -8,9 +8,9 @@
 
     var functionApproximator = new FunctionApproximator(
 	function(){return Math.random();},
+	0.01, 
 	0.1, 
-	0.1, 
-	function(elements) {console.log( elements[Math.floor((Math.random() * elements.length))]); return elements[Math.floor((Math.random() * elements.length))]; }
+	function(elements) { return elements[Math.floor((Math.random() * elements.length))]; }
     );
 
     functionApproximator.addValueFunction(
@@ -21,12 +21,20 @@
 
     functionApproximator.addValueFunction(
 	functionApproximator.createValueFunction(function(s) { 
-	    return s.angularVelocity; })
+	    return s.angularVelocity; 
+	})
     );
 
     functionApproximator.addValueFunction(
 	functionApproximator.createValueFunction(function(s) { 
-	    return s.position; })
+	    return s.velocity; 
+	})
+    );
+
+    functionApproximator.addValueFunction(
+	functionApproximator.createValueFunction(function(s) { 
+	    return s.position; 
+	})
     );
 
     var agent = new SimpleAgent(problem, functionApproximator);
@@ -34,7 +42,7 @@
     function run(){
 	count++;
 	if(!problem.currentState().ended) {
-	    if(count%20 == 0) {
+	    if(count%1 == 0) {
 		var option = agent.chooseAction();
 	    
 		agent.performAction(option.action);
