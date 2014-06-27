@@ -1,3 +1,4 @@
+
 describe('Function Approximator', function() {
     it('should exist', function() {
 	expect(FunctionApproximator).toBeDefined();
@@ -57,9 +58,9 @@ describe('Function Approximator', function() {
 		var state = {x: 8};
 		var value = vf.getValue(state);
 		expect(value).toBe(4);
-		vf.correct(value, 2, 0.1);
-		// diff of 2 * learningRate == -0.2
-		expect(vf.getWeight()).toBe(0.3)
+		vf.correct(value, 2, 0.1, state);
+		// diff of 2 * x * learningRate == -1.6
+		expect(vf.getWeight()).toBe(-1.1)
 	    });
 
 	    it('should heighten its weight with a given learningRate', function() {
@@ -67,9 +68,9 @@ describe('Function Approximator', function() {
 		var state = {x: 8};
 		var value = vf.getValue(state);
 		expect(value).toBe(4);
-		vf.correct(value, 6, 0.1);
-		// diff of 2 * learningRate == 0.2
-		expect(vf.getWeight()).toBe(0.7)
+		vf.correct(value, 6, 0.1, state);
+		// diff of 2 * x * learningRate == 1.6
+		expect(vf.getWeight()).toBe(2.1)
 	    });
 	    
 	});
