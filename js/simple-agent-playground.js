@@ -8,16 +8,19 @@
 
     var functionApproximator = new FunctionApproximator(
 	function(){return Math.random();},
-	0.001, 
-	0.01, 
-	function(elements) { return elements[Math.floor((Math.random() * elements.length))]; }
+	0.001,
+	0.01,
+	function(elements) { return elements[Math.floor((Math.random() * elements.length))]; },
+	function(weights) {
+	    return weights.reduce(function (prev, current) { return Math.max(prev, current)}, 1)
+	}
     );
 
     functionApproximator.addValueFunction(
-	functionApproximator.createValueFunction(function(s) { 
+	functionApproximator.createValueFunction(function(s) {
 	    return 1;
 	})
-    ); 
+    );
 
     var agent = new SimpleAgent(problem, functionApproximator);
     var count = 0;
@@ -25,7 +28,7 @@
 	if(!problem.currentState().ended) {
 	    if(count%5 == 0) {
 		var option = agent.chooseAction();
-	    
+
 		agent.performAction(option.action);
 	    } else {
 		problem.tick();
@@ -39,7 +42,7 @@
 	    agent.solver.getValueFunctions().forEach(function(el) { log += " " +  el.getWeight(); } );
 	    //log weights
 	    //console.log(log);
-	
+
 	    problem.currentState(initialState);
 
 	}
