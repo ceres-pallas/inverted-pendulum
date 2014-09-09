@@ -17,8 +17,12 @@
 	this.weight = weight;
     }
 
+    ValueFunction.prototype.scale = function(multiplier) {
+	this.setWeight(this.getWeight() * multiplier);
+    }
+
     ValueFunction.prototype.correct = function(estimate, actual, learningRate, state) {
-	
+
 	var correction = ((Math.abs(estimate-actual))*this.valueFunction(state))*learningRate;
 	if(actual < estimate) {
 	    correction*=-1;
@@ -46,7 +50,7 @@
     FunctionApproximator.prototype.getExplorationRate = function(){
 	return this.explorationRate;
     }
-    
+
     FunctionApproximator.prototype.getValueFunctions = function(){
 	return this.valueFunctions;
     }
@@ -68,11 +72,11 @@
 
 	return utility;
     }
-    
+
     FunctionApproximator.prototype.getLearningRate = function() {
 	return this.learningRate;
     }
-    
+
     FunctionApproximator.prototype.getStates = function() {
 	return this.states;
     }
@@ -93,8 +97,8 @@
 
 	if(Math.random() <= _context.getExplorationRate()) {
 	    return _context.randomPickerFunction(states);
-	} 
-	
+	}
+
 	states.forEach(function(state) {
 	    var value = _context.getValue(state.state);
 	    if(high == undefined || value > high) {
