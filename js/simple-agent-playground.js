@@ -12,7 +12,7 @@
 	0.01,
 	function(elements) { return elements[Math.floor((Math.random() * elements.length))]; },
 	function(weights) {
-	    return weights.reduce(function (prev, current) { return Math.max(prev, current)}, 1)
+	    return 1/weights.reduce(function (prev, current) { return Math.max(prev, current)}, -Infinity)
 	}
     );
 

@@ -5,7 +5,6 @@
     }
 
     ValueFunction.prototype.getValue = function(state) {
-
 	return this.getWeight() * this.valueFunction(state);
     }
 
@@ -89,10 +88,13 @@
 	_context.getValueFunctions().forEach(function(vf) {
 	   vf.correct(estimate, actual, _context.getLearningRate(), state);
 	});
+	
 	var weights = _context.getValueFunctions().map(function(vf) {
-	    vf.getWeight();
+	    return vf.getWeight();
 	});
+	
 	var multiplier = this.normalizer(weights);
+	
 	_context.getValueFunctions().forEach(function(vf) {
 	   vf.scale(multiplier);
 	});
