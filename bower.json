@@ -2,7 +2,8 @@
   "name": "inverted-pendulum",
   "version": "0.0.0",
   "dependencies": {
-    "function-approximator": "~0.0.0"
+    "function-approximator": "~0.0.0",
+    "simple-agent": "~0.0.0"
   },
   "devDependencies": {
     "jasmine": "~2.0.0"
