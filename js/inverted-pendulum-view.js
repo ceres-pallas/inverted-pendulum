@@ -48,8 +48,8 @@
     CanvasView.prototype.container = function(){
         if (!this._container) {
             var c = this._container = document.createElement('canvas');
-            c.setAttribute('width', 640);
-            c.setAttribute('height', 480);
+            c.setAttribute('width', this.options.width);
+            c.setAttribute('height', this.options.height);
             this.parent.appendChild(c);
         }
         return this._container;
@@ -57,7 +57,7 @@
     CanvasView.prototype.context = function(){
         if (!this._context) {
             var c = this._context = this.container().getContext('2d');
-            c.translate(0, 480);
+            c.translate(0, this.options.height);
             c.scale(1, -1);
         }
         return this._context;
