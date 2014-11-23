@@ -7,5 +7,10 @@
   },
   "devDependencies": {
     "jasmine": "~2.0.0"
-  }
+  },
+  "ignore": [
+      "**/.*",
+	  "node_modules",
+	  "bower_components"
+  ]
 }
