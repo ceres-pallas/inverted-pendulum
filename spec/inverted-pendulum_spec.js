@@ -77,6 +77,41 @@ describe('Inverted Pendulum', function(){
         });
     });
 
+        it('should be possible to override default state', function(){
+            var start = {
+                position : 10,
+                angle: 5,
+                velocity: -3,
+                angularVelocity: 1
+            };
+            var problem = world.createInvertedPendulum(start);
+            var s = problem.currentState();
+
+            expect(s.position).toBeCloseTo(start.position, 0.01);
+            expect(s.angle).toBeCloseTo(start.angle, 0.01);
+            expect(s.velocity).toBeCloseTo(start.velocity, 0.01);
+            expect(s.angularVelocity).toBeCloseTo(start.angularVelocity, 0.01);
+        });
+
+        it('should reset with original state', function(){
+            var start = {
+                position : 10,
+                angle: 5,
+                velocity: -3,
+                angularVelocity: 1
+            };
+            var problem = world.createInvertedPendulum(start);
+			problem.tick();
+
+			problem.reset();
+            var s = problem.currentState();
+
+            expect(s.position).toBeCloseTo(start.position, 0.01);
+            expect(s.angle).toBeCloseTo(start.angle, 0.01);
+            expect(s.velocity).toBeCloseTo(start.velocity, 0.01);
+            expect(s.angularVelocity).toBeCloseTo(start.angularVelocity, 0.01);
+        });
+
     describe('tick', function(){
         it('should calculate stationary state correctly', function(){
             var problem = world.createInvertedPendulum();

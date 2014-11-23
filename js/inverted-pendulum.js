@@ -30,7 +30,7 @@
     var InvertedPendulum = function(world, state){
         Observable.call(this);
         this.world = world;
-        this._currentState = Helper.extend(state || {}).by(defaultState);
+        this._currentState = this._originalState = Helper.extend(state || {}).by(defaultState);
     };
     InvertedPendulum.prototype = new Observable();
     InvertedPendulum.prototype.currentState = function(state){
@@ -102,5 +102,8 @@
 	];
 
 }
+	InvertedPendulum.prototype.reset = function(){
+		this._currentState = this._originalState;
+	}
 
 })(window || module.exports, Helper, Observable);
