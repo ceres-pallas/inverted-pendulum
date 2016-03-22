@@ -18,13 +18,13 @@
     };
     World.prototype.createInvertedPendulum = function(state){
         return new InvertedPendulum(this, state);
-    }
+    };
 
     var defaultState = {
         position : 0,
         angle: 0,
         velocity: 0,
-        angularVelocity: 0,
+        angularVelocity: 0
     };
 
     var InvertedPendulum = function(world, state){
@@ -37,7 +37,7 @@
         this._currentState = state?Helper.extend(state || {}).by(defaultState):this._currentState;
 
         return copy(this._currentState);
-    }
+    };
     InvertedPendulum.prototype.tick = function(force){
         force = force || 0;
         var state = this.currentState();
@@ -56,7 +56,7 @@
 
         this._currentState = state;
         this.notify(this.currentState());
-    }
+    };
     InvertedPendulum.prototype.normalizeState = function(state) {
         var seam = this.world.extend/2;
         while (state.position < -seam) {
@@ -76,11 +76,11 @@
             state.ended = true;
         }
         return state;
-    }
+    };
     InvertedPendulum.prototype.getPossibleActions = function() {
         var current = this.currentState();
-	var leftForce = -0.1;
-	var rightForce = 0.1;
+	      var leftForce = -0.1;
+	      var rightForce = 0.1;
 
         this.tick(leftForce);
         var leftState = this.currentState();
@@ -96,14 +96,14 @@
         this.currentState(current);
 
         return [
-                {state: neutralState, action:  0},
-		{state: leftState, action: leftForce},
-                {state: rightState, action:  rightForce}
-	];
+            {state: neutralState, action:  0},
+		        {state: leftState, action: leftForce},
+            {state: rightState, action:  rightForce}
+	      ];
 
-}
+    };
 	InvertedPendulum.prototype.reset = function(){
 		this._currentState = this._originalState;
-	}
+	};
 
 })(window || module.exports, Helper, Observable);
