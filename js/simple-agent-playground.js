@@ -29,9 +29,8 @@
 	          if(count%5 == 0) {
 		            var option = agent.chooseAction();
 		            agent.performAction(option.action);
-	          } else {
-		            problem.tick();
 	          }
+		        problem.tick();
 	          count++;
 	      } else {
 	          agent.reevaluateActions();
